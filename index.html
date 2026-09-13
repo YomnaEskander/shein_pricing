@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shein Club — SAR to EGP</title>
+<style>
+  :root {
+    --ink: #241f1a;
+    --paper: #faf6ef;
+    --line: #ddd2bf;
+    --accent: #b5482e;
+    --accent-soft: #f0dccb;
+    --muted: #8a7f6e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    display: flex;
+    justify-content: center;
+    padding: 48px 20px;
+  }
+  .sheet {
+    width: 100%;
+    max-width: 620px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: normal;
+    margin: 0 0 4px;
+    letter-spacing: 0.2px;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .rate-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 28px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .rate-row input {
+    width: 70px;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    padding: 2px 4px;
+  }
+  .rate-row input:focus { outline: none; border-bottom-color: var(--accent); }
+
+  form {
+    margin-bottom: 28px;
+  }
+  .form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .form-row + .form-row {
+    margin-top: 10px;
+  }
+  form input[type="text"],
+  form input[type="number"],
+  form input[type="url"] {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 3px;
+  }
+  form input:focus { outline: none; border-color: var(--accent); }
+  #itemName { flex: 1.4; }
+  #itemPrice { flex: 1; }
+  #itemLink { flex: 1; }
+  .photo-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--accent);
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .photo-label:hover { color: #9c3c26; }
+  #photoPreview {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+  }
+  button.ghost.small {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  button {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: #9c3c26; }
+
+  .file-row {
+    display: flex;
+    gap: 18px;
+    margin: -14px 0 28px;
+  }
+  button.ghost {
+    background: none;
+    color: var(--accent);
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  button.ghost:hover { background: none; color: #9c3c26; }
+
+  #linksPanel {
+    margin: -14px 0 28px;
+  }
+  #linksText {
+    width: 100%;
+    min-height: 160px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 10px 12px;
+    resize: vertical;
+    margin-bottom: 8px;
+  }
+  #linksText:focus { outline: none; border-color: var(--accent); }
+
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin: -14px 0 28px;
+    cursor: pointer;
+  }
+  .checkbox-row input { cursor: pointer; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  thead th {
+    text-align: left;
+    font-weight: normal;
+    color: var(--muted);
+    font-size: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--ink);
+  }
+  th.num, td.num { text-align: right; }
+  tbody td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .item-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .item-thumb {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .item-name a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--muted);
+  }
+  .item-name a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  tbody tr:hover { background: rgba(181,72,46,0.04); }
+  .remove {
+    background: none;
+    color: var(--muted);
+    padding: 0 6px;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .remove:hover { background: none; color: var(--accent); }
+
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 20px;
+  }
+  .total-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: none;
+  }
+  .total-value {
+    font-size: 30px;
+  }
+  .total-value span {
+    font-size: 15px;
+    color: var(--muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-left: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Shein Club</h1>
+  <div class="sub">Enter each item's SAR price to get the EGP total — add a photo or link if you'd like.</div>
+
+  <div class="rate-row">
+    <label for="fee">Fee added (SAR)</label>
+    <input type="number" id="fee" value="2" step="0.01">
+    <label for="fx">Exchange rate (EGP per SAR)</label>
+    <input type="number" id="fx" value="14.3" step="0.01">
+  </div>
+
+  <form id="addForm">
+    <div class="form-row">
+      <input type="text" id="itemName" placeholder="Item name" required>
+      <input type="number" id="itemPrice" placeholder="SAR price" step="0.01" required>
+      <button type="submit">Add</button>
+    </div>
+    <div class="form-row secondary">
+      <input type="url" id="itemLink" placeholder="Product link (optional)">
+      <label class="photo-label" id="photoLabel">
+        <span id="photoLabelText">+ Add photo</span>
+        <input type="file" id="itemImage" accept="image/*" style="display:none">
+      </label>
+      <img id="photoPreview" style="display:none">
+      <button type="button" id="clearPhoto" style="display:none" class="ghost small">Remove photo</button>
+    </div>
+  </form>
+
+  <div class="file-row">
+    <button type="button" id="exportBtn" class="ghost">Save list as CSV</button>
+    <button type="button" id="importBtn" class="ghost">Load list from CSV</button>
+    <button type="button" id="linksBtn" class="ghost">Show links only</button>
+    <input type="file" id="importFile" accept=".csv" style="display:none">
+  </div>
+  <label class="checkbox-row">
+    <input type="checkbox" id="replaceOnImport">
+    Replace current list instead of adding to it
+  </label>
+
+  <div id="linksPanel" style="display:none">
+    <textarea id="linksText" readonly></textarea>
+    <button type="button" id="copyLinksBtn" class="ghost small">Copy to clipboard</button>
+  </div>
+
+  <table id="itemsTable">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="num">SAR</th>
+        <th class="num">EGP</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="itemsBody"></tbody>
+  </table>
+  <div id="emptyState" class="empty">No items yet — add your first one above.</div>
+
+  <div class="total-row">
+    <div class="total-label">Total</div>
+    <div class="total-value" id="totalValue">0.00<span>EGP</span></div>
+  </div>
+</div>
+
+<script>
+  let items = []; // { name, sar, link, image }
+  let pendingImage = null;
+
+  const form = document.getElementById('addForm');
+  const nameInput = document.getElementById('itemName');
+  const priceInput = document.getElementById('itemPrice');
+  const linkInput = document.getElementById('itemLink');
+  const imageInput = document.getElementById('itemImage');
+  const photoLabelText = document.getElementById('photoLabelText');
+  const photoPreview = document.getElementById('photoPreview');
+  const clearPhotoBtn = document.getElementById('clearPhoto');
+  const feeInput = document.getElementById('fee');
+  const fxInput = document.getElementById('fx');
+  const body = document.getElementById('itemsBody');
+  const table = document.getElementById('itemsTable');
+  const emptyState = document.getElementById('emptyState');
+  const totalValue = document.getElementById('totalValue');
+
+  imageInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      pendingImage = event.target.result;
+      photoPreview.src = pendingImage;
+      photoPreview.style.display = 'inline-block';
+      photoLabelText.textContent = 'Photo added';
+      clearPhotoBtn.style.display = 'inline';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  clearPhotoBtn.addEventListener('click', () => {
+    pendingImage = null;
+    imageInput.value = '';
+    photoPreview.style.display = 'none';
+    photoLabelText.textContent = '+ Add photo';
+    clearPhotoBtn.style.display = 'none';
+  });
+
+  function computeEGP(sar) {
+    const fee = parseFloat(feeInput.value) || 0;
+    const fx = parseFloat(fxInput.value) || 0;
+    return Math.round((sar + fee) * fx * 100) / 100;
+  }
+
+  function render() {
+    body.innerHTML = '';
+    if (items.length === 0) {
+      table.style.display = 'none';
+      emptyState.style.display = 'block';
+    } else {
+      table.style.display = 'table';
+      emptyState.style.display = 'none';
+    }
+
+    let total = 0;
+    items.forEach((item, i) => {
+      const egp = computeEGP(item.sar);
+      total += egp;
+      const nameHtml = item.link
+        ? `<a href="${item.link}" target="_blank" rel="noopener">${item.name}</a>`
+        : item.name;
+      const thumbHtml = item.image
+        ? `<img class="item-thumb" src="${item.image}">`
+        : '';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><div class="item-cell">${thumbHtml}<span class="item-name">${nameHtml}</span></div></td>
+        <td class="num">${item.sar.toFixed(2)}</td>
+        <td class="num">${egp.toFixed(2)}</td>
+        <td><button class="remove" data-index="${i}" title="Remove">&times;</button></td>
+      `;
+      body.appendChild(tr);
+    });
+
+    total = Math.round(total * 100) / 100;
+    totalValue.innerHTML = `${total.toFixed(2)}<span>EGP</span>`;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const sar = parseFloat(priceInput.value);
+    const link = linkInput.value.trim();
+    if (!name || isNaN(sar)) return;
+    items.push({ name, sar, link: link || null, image: pendingImage });
+    nameInput.value = '';
+    priceInput.value = '';
+    linkInput.value = '';
+    pendingImage = null;
+    imageInput.value = '';
+    photoPreview.style.display = 'none';
+    photoLabelText.textContent = '+ Add photo';
+    clearPhotoBtn.style.display = 'none';
+    nameInput.focus();
+    render();
+  });
+
+  body.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove')) {
+      const idx = parseInt(e.target.dataset.index, 10);
+      items.splice(idx, 1);
+      render();
+    }
+  });
+
+  feeInput.addEventListener('input', render);
+  fxInput.addEventListener('input', render);
+
+  // --- Export to CSV ---
+  const exportBtn = document.getElementById('exportBtn');
+  exportBtn.addEventListener('click', () => {
+    if (items.length === 0) return;
+    const rows = ['item,sar_price,link'];
+    items.forEach(item => rows.push(`${item.name},${item.sar},${item.link || ''}`));
+    const csv = rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shein_club_list.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // --- Import from CSV ---
+  const importBtn = document.getElementById('importBtn');
+  const importFile = document.getElementById('importFile');
+  importBtn.addEventListener('click', () => importFile.click());
+  importFile.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const lines = event.target.result.split('\n').map(l => l.trim()).filter(Boolean);
+      const startIndex = lines[0] && lines[0].toLowerCase().startsWith('item') ? 1 : 0;
+      const loaded = [];
+      for (let i = startIndex; i < lines.length; i++) {
+        const parts = lines[i].split(',');
+        if (parts.length < 2) continue;
+        const name = parts[0].trim();
+        const sar = parseFloat(parts[1]);
+        const link = parts.length > 2 ? parts.slice(2).join(',').trim() : '';
+        if (name && !isNaN(sar)) loaded.push({ name, sar, link: link || null, image: null });
+      }
+      items = document.getElementById('replaceOnImport').checked ? loaded : items.concat(loaded);
+      render();
+    };
+    reader.readAsText(file);
+    importFile.value = '';
+  });
+
+  // --- Links only ---
+  const linksBtn = document.getElementById('linksBtn');
+  const linksPanel = document.getElementById('linksPanel');
+  const linksText = document.getElementById('linksText');
+  const copyLinksBtn = document.getElementById('copyLinksBtn');
+
+  linksBtn.addEventListener('click', () => {
+    const links = items.filter(item => item.link).map(item => item.link);
+    if (links.length === 0) {
+      linksText.value = 'No links added yet.';
+    } else {
+      linksText.value = links.map((link, i) => `${i + 1}- ${link}`).join('\n\n');
+    }
+    linksPanel.style.display = linksPanel.style.display === 'none' ? 'block' : 'none';
+  });
+
+  copyLinksBtn.addEventListener('click', () => {
+    linksText.select();
+    navigator.clipboard.writeText(linksText.value).then(() => {
+      const original = copyLinksBtn.textContent;
+      copyLinksBtn.textContent = 'Copied!';
+      setTimeout(() => { copyLinksBtn.textContent = original; }, 1500);
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
